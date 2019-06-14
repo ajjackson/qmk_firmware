@@ -93,17 +93,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  |  \   |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |      |      |      |      |      |   -  |   _  |   +  |   {  |   }  |ISO # |
+ * | Del  |      |      |      | LEAD |      |   -  |   _  |   +  |   {  |   }  |ISO # |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      | C-z  | C-x  | C-c  | C-v  |      |   =  |ISO ~ |ISO | |   [  |   ]  |ISO \ |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
+ *
+ * LEAD is a leader key which leads to the following (on base layer)
+ *
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  | F10  | F11  | F12  |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT( \
   KC_TILD, KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE, \
   KC_TILD, KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR, KC_LPRN, KC_RPRN, KC_BSLS, \
-  KC_DEL,  _______,    _______,    _______,    _______,    _______, KC_MINS, KC_UNDS,    KC_PLUS, KC_LCBR, KC_RCBR, KC_NUHS, \
+  KC_DEL,  _______,    _______,    _______,    KC_LEAD,    _______, KC_MINS, KC_UNDS,    KC_PLUS, KC_LCBR, KC_RCBR, KC_NUHS, \
   _______, LCTL(KC_C), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), _______, KC_EQL,  S(KC_NUHS), S(KC_NUBS), KC_LBRC, KC_RBRC, KC_NUBS, \
   _______, _______,    _______,    _______,    _______,    _______, _______, _______,    KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
 ),
@@ -114,9 +128,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Del  |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  | Left | Down | Up   | Right|      |
+ * | Del  |      |      |      |      |      |      | Left | Down | Up   | Right|      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | Home | PgDn | PgUp | End  |      |
+ * |      |      |      |      |      |      |      | Home | PgDn | PgUp | End  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
@@ -124,8 +138,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_RAISE] = LAYOUT( \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC, \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_DEL, \
-  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, \
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_HOME, KC_PGDN, KC_PGUP, KC_END,   _______, \
+  KC_DEL,  _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, \
+  _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,   _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU,  KC_MPLY \
 ),
 
@@ -224,3 +238,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
+LEADER_EXTERNS();
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    // Leader key sequences go here
+    SEQ_ONE_KEY(KC_TAB) {SEND_STRING(SS_TAP(X_F1));}
+    SEQ_ONE_KEY(KC_Q) {SEND_STRING(SS_TAP(X_F2));}
+    SEQ_ONE_KEY(KC_W) {SEND_STRING(SS_TAP(X_F3));}
+    SEQ_ONE_KEY(KC_E) {SEND_STRING(SS_TAP(X_F4));}
+    SEQ_ONE_KEY(KC_R) {SEND_STRING(SS_TAP(X_F5));}
+    SEQ_ONE_KEY(KC_T) {SEND_STRING(SS_TAP(X_F6));}
+    SEQ_ONE_KEY(KC_Y) {SEND_STRING(SS_TAP(X_F7));}
+    SEQ_ONE_KEY(KC_U) {SEND_STRING(SS_TAP(X_F8));}
+    SEQ_ONE_KEY(KC_I) {SEND_STRING(SS_TAP(X_F9));}      
+    SEQ_ONE_KEY(KC_O) {SEND_STRING(SS_TAP(X_F10));}
+    SEQ_ONE_KEY(KC_P) {SEND_STRING(SS_TAP(X_F11));}
+    SEQ_ONE_KEY(KC_DEL) {SEND_STRING(SS_TAP(X_F12));}
+    }
+  }
+  
