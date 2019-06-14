@@ -10,6 +10,7 @@ extern keymap_config_t keymap_config;
 #define _COLEMAK 1
 #define _DVORAK 2
 #define _LOWER 3
+#define _MOUSE 4
 #define _RAISE 8
 #define _ADJUST 16
 
@@ -18,6 +19,7 @@ enum custom_keycodes {
   COLEMAK,
   DVORAK,
   LOWER,
+  MOUSE,
   RAISE,
   ADJUST,
 };
@@ -93,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  |  \   |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |      |      |      | LEAD |      |   -  |   _  |   +  |   {  |   }  |ISO # |
+ * | Del  |      |MOUSE |      | LEAD |      |   -  |   _  |   +  |   {  |   }  |ISO # |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |      | C-z  | C-x  | C-c  | C-v  |      |   =  |ISO ~ |ISO | |   [  |   ]  |ISO \ |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -117,10 +119,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT( \
   KC_TILD, KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE, \
   KC_TILD, KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR, KC_LPRN, KC_RPRN, KC_BSLS, \
-  KC_DEL,  _______,    _______,    _______,    KC_LEAD,    _______, KC_MINS, KC_UNDS,    KC_PLUS, KC_LCBR, KC_RCBR, KC_NUHS, \
+  KC_DEL,  _______,    MOUSE,    _______,    KC_LEAD,    _______, KC_MINS, KC_UNDS,    KC_PLUS, KC_LCBR, KC_RCBR, KC_NUHS, \
   _______, LCTL(KC_C), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), _______, KC_EQL,  S(KC_NUHS), S(KC_NUBS), KC_LBRC, KC_RBRC, KC_NUBS, \
   _______, _______,    _______,    _______,    _______,    _______, _______, _______,    KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
 ),
+
+/* Mouse
+ *
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |MBTN1 |MW Up |MBTN2 |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |MLeft |MDown | MUp  |MRight|      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |MW Dn |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_MOUSE] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______,    _______, _______,    _______,       _______,    _______,     _______, \
+  _______, _______, _______, _______, _______, _______,    _______, KC_MS_BTN1, KC_MS_WH_UP,   KC_MS_BTN2, _______,     _______, \
+  _______, _______, _______, _______, _______, _______,    _______, KC_MS_LEFT, KC_MS_DOWN,    KC_MS_UP,   KC_MS_RIGHT, _______, \
+  _______, _______, _______, _______, _______, _______,    _______, _______,    KC_MS_WH_DOWN, _______,    _______,     _______, \
+  _______, _______, _______, _______, _______, _______,    _______, _______,    _______,       _______,    _______,     _______ \
+),
+
 
 /* Raise
  * ,-----------------------------------------------------------------------------------.
@@ -217,6 +242,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case MOUSE:
+      if (record->event.pressed) {
+        layer_on(_MOUSE);
+      } else {
+        layer_off(_MOUSE);
+      }
+      return false;
+      break;
     case RAISE:
       if (record->event.pressed) {
         layer_on(_RAISE);
@@ -254,10 +287,9 @@ void matrix_scan_user(void) {
     SEQ_ONE_KEY(KC_T) {SEND_STRING(SS_TAP(X_F6));}
     SEQ_ONE_KEY(KC_Y) {SEND_STRING(SS_TAP(X_F7));}
     SEQ_ONE_KEY(KC_U) {SEND_STRING(SS_TAP(X_F8));}
-    SEQ_ONE_KEY(KC_I) {SEND_STRING(SS_TAP(X_F9));}      
+    SEQ_ONE_KEY(KC_I) {SEND_STRING(SS_TAP(X_F9));}
     SEQ_ONE_KEY(KC_O) {SEND_STRING(SS_TAP(X_F10));}
     SEQ_ONE_KEY(KC_P) {SEND_STRING(SS_TAP(X_F11));}
     SEQ_ONE_KEY(KC_DEL) {SEND_STRING(SS_TAP(X_F12));}
     }
   }
-  
